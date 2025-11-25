@@ -7,19 +7,19 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET, // Click 'View API Keys' above to copy your API secret
 });
 
-const uploadVideo = async (videoPath) => {
+const uploadOnCloudinary = async (localFilePath) => {
   try {
-    if (!videoPath) return null;
-    const uploadResult = await cloudinary.uploader.upload(videoPath, {
+    if (!localFilePath) return null;
+    const uploadResult = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "auto",
     });
-    console.log(`Video uploaded successfully: ${uploadResult}`);
+    console.log(`Video uploaded successfully`, uploadResult.url);
     return uploadResult;
   } catch (error) {
-    fs.unlinkSync(videoPath);
+    fs.unlinkSync(localFilePath);
     console.log(`Error uploading video: ${error}`);
     return null;
   }
 };
 
-export { uploadVideo };
+export { uploadOnCloudinary };
